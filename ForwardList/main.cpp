@@ -42,10 +42,47 @@ public:
 		size = 0;
 		cout << "LConstructor:\t" << this << endl;
 	}
+	ForwardList(unsigned int size):ForwardList()
+	{
+		/*this->Head = nullptr;
+		this->size = 0;*/
+		for (int i = 0; i < size; i++)
+		{
+			push_front(0);
+		}
+	}
+	ForwardList(const initializer_list<int>& il): ForwardList()
+	{
+		cout << typeid(il.begin()).name() << endl;
+	/*	for (int const* it = il.begin(); it != il.end(); it++)
+		{
+			push_back(*it);
+		}*/
+		for (int const* it = il.end()-1; it != il.begin()-1; it--)
+		{
+			push_front(*it);
+		}
+	}
 	~ForwardList()
 	{
 		while (Head)pop_front();
 		cout << "LDestructor:\t" << this << endl;
+	}
+	//                      Operators:
+	
+	int& operator[](const int index)
+	{
+		Element* Temp = Head;
+		for (int i = 0; i < index; i++)
+			Temp = Temp->pNext;
+		return Temp->Data;
+	}
+	const int& operator[](const int index)const
+	{
+		Element* Temp = Head;
+		for (int i = 0; i < index; i++)
+			Temp = Temp->pNext;
+		return Temp->Data;
 	}
 
 	//					Addigng elements:
@@ -146,7 +183,7 @@ public:
 //#define BASE_CHECK
 //#define DESTRUCTOR_CHECK
 //#define HOME_WORK_1
-//#define HOME_WORK_2
+#define HOME_WORK_2
 
 void main()
 {
@@ -213,6 +250,10 @@ void main()
 	for (int i = 0; i < n; i++)
 	{
 		list[i] = rand() % 100;
+	}
+	for (int i = 0; i < n; i++)
+	{
+		cout << list[i]<<tab;
 	}
 	cout << endl;
 #endif // HOME_WORK_1
