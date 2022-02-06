@@ -88,9 +88,12 @@ public:
 	//					Addigng elements:
 	void push_front(int Data)
 	{
-		Element* New = new Element(Data);//Создаем новый элемент и помещаем в него значение Data
-		New->pNext = Head;	//Привязывем новый элемент к началу списка
-		Head = New;	//Переводим Голову на новый элемент
+		//initializer_list<Element*>{ new Element(Data), New->pNext = Head, Head = New};
+		
+		//Element* New = new Element(Data);//Создаем новый элемент и помещаем в него значение Data
+		//New->pNext = Head;	//Привязывем новый элемент к началу списка
+		//Head = New;	//Переводим Голову на новый элемент
+		Head= new Element(Data,Head);
 		size++;
 	}
 	void push_back(int Data)
