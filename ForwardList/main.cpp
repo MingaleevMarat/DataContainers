@@ -111,8 +111,14 @@ public:
 		//Temp->pNext = New;
 
 		
-		if (Head == nullptr)return push_front(Data);
+		/*if (Head == nullptr)return push_front(Data);
 		Head = new Element(Data, Head);
+		size++;*/
+		if (Head == nullptr)return push_front(Data);
+		Element* Temp = Head;
+		while (Temp->pNext)
+		Temp = Temp->pNext;
+		Temp->pNext= new Element(Data);
 		size++;
 	}
 	void insert(int index, int Data)
@@ -128,11 +134,19 @@ public:
 		//Temp->pNext = New;
 		//size++;
 
-		if (index == 0 || Head == nullptr)return push_front(Data);
+		/*if (index == 0 || Head == nullptr)return push_front(Data);
 		if (index > size)return;
 		Head = new Element(Data,Head);
 		for (int i = 0; i < index - 1; i++)Head = Head;
+		size++;*/
+
+		if (index == 0 || Head == nullptr)return push_front(Data);
+		if (index > size)return;
+		Element* Temp = Head;
+		for (int i = 0; i < index - 1; i++)Temp = Temp->pNext;
+		Temp->pNext == new Element(Data,Temp->pNext);
 		size++;
+
 	}
 
 	//					Removing elements:
@@ -164,7 +178,7 @@ public:
 
 	void erase(int index)
 	{
-		if (index > size)return;
+		if (index >= size)return;
 		if (index == 0)return pop_front();
 		Element* Temp = Head;
 		for (int i = 0; i < index - 1; ++i)
