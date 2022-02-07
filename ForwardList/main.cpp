@@ -98,30 +98,40 @@ public:
 	}
 	void push_back(int Data)
 	{
-		//0) Проверяем, является ли список пустым:
+		////0) Проверяем, является ли список пустым:
+		//if (Head == nullptr)return push_front(Data);
+		////1) Создаем новый элемент:
+		//Element* New = new Element(Data);
+		////2) Доходим до конца списка:
+		//Element* Temp = Head;
+		//while (Temp->pNext)//Пока, pNext текущего элемента НЕ ноль
+		//	Temp = Temp->pNext;//переходим на следующий элемент
+		////Теперь мы находимся в последнем элементе, т.е. Temp->pNext == nullptr
+		////3) Присоединяем новый элемент к последнему:
+		//Temp->pNext = New;
+
+		
 		if (Head == nullptr)return push_front(Data);
-		//1) Создаем новый элемент:
-		Element* New = new Element(Data);
-		//2) Доходим до конца списка:
-		Element* Temp = Head;
-		while (Temp->pNext)//Пока, pNext текущего элемента НЕ ноль
-			Temp = Temp->pNext;//переходим на следующий элемент
-		//Теперь мы находимся в последнем элементе, т.е. Temp->pNext == nullptr
-		//3) Присоединяем новый элемент к последнему:
-		Temp->pNext = New;
+		Head = new Element(Data, Head);
 		size++;
 	}
 	void insert(int index, int Data)
 	{
+		//if (index == 0 || Head == nullptr)return push_front(Data);
+		//if (index > size)return;
+		//Element* New = new Element(Data);
+		////1) Доходим до нужного элемента:
+		//Element* Temp = Head;
+		//for (int i = 0; i < index - 1; i++)Temp = Temp->pNext;
+		////3) Включаем новый элемент в список:
+		//New->pNext = Temp->pNext;
+		//Temp->pNext = New;
+		//size++;
+
 		if (index == 0 || Head == nullptr)return push_front(Data);
 		if (index > size)return;
-		Element* New = new Element(Data);
-		//1) Доходим до нужного элемента:
-		Element* Temp = Head;
-		for (int i = 0; i < index - 1; i++)Temp = Temp->pNext;
-		//3) Включаем новый элемент в список:
-		New->pNext = Temp->pNext;
-		Temp->pNext = New;
+		Head = new Element(Data,Head);
+		for (int i = 0; i < index - 1; i++)Head = Head;
 		size++;
 	}
 
@@ -183,10 +193,10 @@ public:
 	}
 };
 
-//#define BASE_CHECK
+#define BASE_CHECK
 //#define DESTRUCTOR_CHECK
 //#define HOME_WORK_1
-#define HOME_WORK_2
+//#define HOME_WORK_2
 
 void main()
 {
