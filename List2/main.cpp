@@ -2,7 +2,7 @@
 
 class List
 {
-	class Element 
+	class Element
 	{
 		int Data;
 		Element* pNext;
@@ -18,19 +18,166 @@ class List
 			std::cout << "EDestructor:" << this << std::endl;
 		}
 		friend class List;
-	}*Head,*Tail;
+	}*Head, * Tail;
 	size_t size;
 public:
+	class Iterator
+	{
+		Element* Temp;
+	public:
+		Iterator(Element* Temp = nullptr) :Temp(Temp)
+		{
+			std::cout << "ItConstructor:\t" << this << std::endl;
+		}
+		~Iterator()
+		{
+			std::cout << "ItDestructor:\t" << this << std::endl;
+		}
+		Iterator& operator++()
+		{
+			Temp = Temp->pNext;
+			return *this;
+		}
+
+		Iterator operator++(int)
+		{
+			Iterator old = *this;
+			Temp = Temp->pNext;
+			return old;
+		}
+
+		Iterator& operator--()
+		{
+			Temp = Temp->pPrev;
+			return *this;
+		}
+
+		Iterator operator--(int)
+		{
+			Iterator old = *this;
+			Temp = Temp->pPrev;
+			return old;
+		}
+
+		bool operator==(const Iterator& other)const
+		{
+			return this->Temp == other.Temp;
+		}
+
+		bool operator!=(const Iterator& other)const
+		{
+			return this->Temp != other.Temp;
+		}
+
+		const int& operator*()const
+		{
+			return Temp->Data;
+		}
+
+		int& operator*()
+		{
+			return Temp->Data;
+		}
+	};
+	Iterator begin()
+	{
+		return Head;
+	}
+	Iterator end()
+	{
+		return nullptr;
+	}
+	class ReverseIterator
+	{
+		Element* Temp;
+	public:
+		ReverseIterator(Element* Temp = nullptr) :Temp(Temp)
+		{
+			std::cout << "RItConstructor:\t" << this << std::endl;
+		}
+
+		~ReverseIterator()
+		{
+			std::cout << "RItDestructor:\t" << this << std::endl;
+		}
+		ReverseIterator& operator++()
+		{
+			Temp = Temp->pPrev;
+			return *this;
+		}
+
+		ReverseIterator operator++(int)
+		{
+			ReverseIterator old = *this;
+			Temp = Temp->pPrev;
+			return old;
+		}
+
+		ReverseIterator& operator--()
+		{
+			Temp = Temp->pNext;
+			return *this;
+		}
+
+		ReverseIterator operator--(int)
+		{
+			ReverseIterator old = *this;
+			Temp = Temp->pNext;
+			return old;
+		}
+
+		bool operator==(const ReverseIterator& other)const
+		{
+			return this->Temp == other.Temp;
+		}
+
+		bool operator!=(const ReverseIterator& other)const
+		{
+			return this->Temp != other.Temp;
+		}
+
+		const int& operator*()const
+		{
+			return Temp->Data;
+		}
+
+		int& operator*()
+		{
+			return Temp->Data;
+		}
+		operator bool()const
+		{
+			return Temp;
+		}
+	};
+	ReverseIterator rbegin()
+	{
+		
+		return Tail;
+	}
+	ReverseIterator rend()
+	{
+		return nullptr;
+	}
+	
 	List()
 	{
 		Head = Tail = nullptr;
 		size = 0;
 		std::cout << "LConstructor:\t" << this << std::endl;
 	}
+	List(const std::initializer_list<int>& il) :List()
+	{
+		std::cout << typeid(il.begin()).name() << std::endl;
+		for (int const* it = il.begin(); it != il.end(); ++it)
+		{
+			push_back(*it);
+		}
+	}
 	~List()
 	{
 		/*while (Head)
-		{ 
+		{
 			pop_front();
 		}*/
 		while (Tail)
@@ -45,7 +192,7 @@ public:
 	{
 		/*Tail = Head = new Element(Data, Head, Tail);
 		size++;*/
-		if (Head == nullptr && Tail ==nullptr)
+		if (Head == nullptr && Tail == nullptr)
 		{
 			Head = Tail = new Element(Data);
 			size++;
@@ -91,7 +238,7 @@ public:
 		else
 		{
 			Temp = Tail;
-			for (int i = 0; i < size-1-index; i++)
+			for (int i = 0; i < size - 1 - index; i++)
 			{
 				Temp = Temp->pPrev;
 			}
@@ -141,13 +288,16 @@ public:
 	{
 		for (Element* Temp = Tail; Temp; Temp = Temp->pPrev)
 			std::cout << Temp->pPrev << "\t" << Temp << "\t" << Temp->Data << "\t" << Temp->pNext << std::endl;
-		std::cout << "Количество элементов списка: \t"<<size << std::endl;
+		std::cout << "Количество элементов списка: \t" << size << std::endl;
 	}
 };
 
+//#define BASE_CHECK
+//void print(int arr[]);
 void main()
 {
 	setlocale(LC_ALL, "");
+#ifdef BASE_CHECK
 	int n;
 	std::cout << "Введите размер списка: ";
 	std::cin >> n;
@@ -170,4 +320,35 @@ void main()
 	list.insert(index, value);
 	list.print();
 	list.reverse_print();
+#endif // BASE_CHECK
+	/*int arr[] = { 3,5,8,13,21 };
+	print(arr);*/
+
+	List list = { 3,5,8,13,21 };
+	list.print();
+	for (int i : list)
+	{
+		std::cout << i << "\t";
+	}
+	std::cout << std::endl;
+	for (List::ReverseIterator it = list.rbegin(); it; ++it)
+	{
+		std::cout << *it << "\t";
+	}
+	std::cout << std::endl;
+	
+	/*const int size = 100;
+	int arr[size] = {};
+	for (int i = 0; i < size; ++i)
+	{
+		std::cout << arr[i] << std::endl;
+	}*/
 }
+//	void print(int arr[])
+//	{
+//	for (int i : arr)
+//	{
+//		std::cout << i << "\t";
+//	}
+//	std::cout << std::endl;
+//}s
