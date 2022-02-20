@@ -214,10 +214,11 @@ public:
 			size++;
 			return;
 		}
-		Element* New = new Element(Data);
+		/*Element* New = new Element(Data);
 		New->pPrev = Tail;
 		Tail->pNext = New;
-		Tail = New;
+		Tail = New;*/
+		Tail = Tail->pNext = new Element(Data, nullptr, Tail);
 		size++;
 	}
 
@@ -243,11 +244,12 @@ public:
 				Temp = Temp->pPrev;
 			}
 		}
-		Element* New = new Element(Data);
+		/*Element* New = new Element(Data);
 		New->pNext = Temp;
 		New->pPrev = Temp->pPrev;
 		Temp->pPrev->pNext = New;
-		Temp->pPrev = New;
+		Temp->pPrev = New;*/
+		Temp->pPrev = Temp->pPrev->pNext = new Element(Data, Temp, Temp->pPrev);
 		size++;
 	}
 	// Removing elements:
@@ -292,12 +294,13 @@ public:
 	}
 };
 
-//#define BASE_CHECK
-//void print(int arr[]);
+//#define BASED_CHECK
+#define RANGE_BASED_FOR_LIST
+
 void main()
 {
 	setlocale(LC_ALL, "");
-#ifdef BASE_CHECK
+#ifdef BASED_CHECK
 	int n;
 	std::cout << "¬ведите размер списка: ";
 	std::cin >> n;
@@ -324,6 +327,7 @@ void main()
 	/*int arr[] = { 3,5,8,13,21 };
 	print(arr);*/
 
+#ifdef RANGE_BASED_FOR_LIST
 	List list = { 3,5,8,13,21 };
 	list.print();
 	for (int i : list)
@@ -336,7 +340,8 @@ void main()
 		std::cout << *it << "\t";
 	}
 	std::cout << std::endl;
-	
+#endif // RANGE_BASED_FOR_LIST
+
 	/*const int size = 100;
 	int arr[size] = {};
 	for (int i = 0; i < size; ++i)
@@ -344,11 +349,3 @@ void main()
 		std::cout << arr[i] << std::endl;
 	}*/
 }
-//	void print(int arr[])
-//	{
-//	for (int i : arr)
-//	{
-//		std::cout << i << "\t";
-//	}
-//	std::cout << std::endl;
-//}s
